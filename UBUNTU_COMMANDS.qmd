@@ -1,0 +1,28 @@
+---
+title: "bash"
+format: html
+editor: visual
+---
+
+# Ubuntu/linux commands
+
+Panaroo
+
+```{bash}
+panaroo -i *.gff -o ./complete_results/ --clean-mode strict -a pan --aligner mafft --core_threshold 0.95 -f 0.85 --merge_paralogs --refind_prop_match 0.75 --search_radius 2000 -t 10
+```
+
+Resistance Gene Identifier (RGI)
+
+```{bash}
+rgi main -i combined_protein_CDS.fasta -o resistance_results --input_type protein
+```
+
+Retaining strains from the rgi data
+
+```{bash}
+for strain_db in GN3_hifix30_flye_assembly GN6_hifix30_flye_assembly GN9_hifix30_flye_assembly; do
+    blastn -query rgi_orf_dna.fasta -db "$strain_db" -outfmt "6 qseqid sseqid pident length evalue bitscore" | awk -v strain="$strain_db" '{print $0, strain}' >> blast_results_with_strain.txt
+done
+
+```
